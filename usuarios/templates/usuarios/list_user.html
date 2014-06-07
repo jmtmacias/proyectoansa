@@ -1,0 +1,100 @@
+    
+{% extends "base.html" %}
+{% block titulo%} Listado de usuarios {% endblock%}
+{% block style_css %} <link href="{{STATIC_URL}}css/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />{% endblock %}
+{% block titulodash%} Listado de usuarios {% endblock%}</li>
+
+{% block content %}
+
+
+
+	<p align="right"><a class="btn btn-sm btn-info" id="Manuel" >Añadir usuario</a></p>
+	<div class="modal fade" id="VentanaUsuario" tabindex="-1" role="dialog" aria-labellebdy="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width: 85%;">
+			<div class="modal-content">
+		
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+				<div class="box-header">
+					<h3 class="box-title">Usuarios</h3>                                    
+				</div><!-- /.box-header -->
+				<div class="box-body table-responsive">
+					<table id="example1" class="table table-bordered table-striped">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th>Login</th>
+								<th>Nombre</th>
+								<th>Fecha de Alta</th>
+								<th>Status</th>
+								<th>Email</th>
+								<th>Acciones</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for datos in usuarios %}
+							<tr>
+							<form action="/usuarios/edituser/" method="POST"> 
+							{% csrf_token %}
+								<td>{{ datos.id }}</td>
+								<td>{{ datos.username }}</td>
+								<td>{{ datos.first_name }} {{ datos.last_name}}</td>
+								<td>{{ datos.date_joined | date:"M d, Y"}}</td>
+								<td align="center">{% if  datos.is_active  %}<span class="label label-success">Activo</span>{% else %}<span class="label label-danger">Inactivo</span>{% endif %}</td>
+								<td>{{ datos.email }}</td>
+								<td align="">
+									<a href="#" data-id="{{ datos.id}}" class="btn btn-primary btn-sm editar"><span class="glyphicon glyphicon-edit"></span></a> 
+									<a href="/usuarios/edituser/{{datos.id}}" type="submit" class="btn btn-danger btn-sm eliminar"><span class="glyphicon glyphicon-trash"></a></button> 
+								</td>
+								</form>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div> <!-- end box-body -->
+			</div> <!-- end box-->
+		</div> <!-- end col-xs-12-->
+	</div>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script src="{{STATIC_URL}}js/plugins/datatables/jquery.dataTables.js" type="text/javascript"></script>
+<script src="{{STATIC_URL}}js/plugins/datatables/dataTables.bootstrap.js" type="text/javascript"></script>
+<script src="{{STATIC_URL}}js/plugins/input-mask/jquery.inputmask.js" type="text/javascript"></script>
+<script src="{{STATIC_URL}}js/plugins/input-mask/jquery.inputmask.date.extensions.js" type="text/javascript"></script>
+<script src="{{STATIC_URL}}js/plugins/input-mask/jquery.inputmask.extensions.js" type="text/javascript"></script>
+<script src="{{STATIC_URL}}js/app.js" type="text/javascript"></script>
+
+{% endblock %}
+{% block paso2 %} {% endblock%}
+
+{% block pagescript %}
+<script type="text/javascript">
+    $(function() {
+        $("#example1").dataTable();
+        $('#example2').dataTable({
+            "bPaginate": true,
+            "bLengthChange": false,
+            "bFilter": false,
+            "bSort": true,
+            "bInfo": true,
+            "bAutoWidth": false
+        });
+
+      $("#Manuel").on('click',function(e){    	 				
+      		$('.modal-content').load('../nuevo/');
+            $('#VentanaUsuario').modal({keyboard:false, backdrop : 'static'});
+        });
+
+    });
+</script>
+{% endblock %}
+
+

@@ -1,0 +1,13 @@
+Django==1.6.5
+Pillow==2.4.0
+argparse==1.2.1
+django-phonenumber-field==0.5
+phonenumbers==6.1.0
+wsgiref==0.1.2
+
+
+#sudo apt-get install python-dev
+#sudo apt-get install libjpeg8-dev
+#sudo apt-get install libfreetype6 libfreetype6-dev
+#mkvirtualenv -p python2.7 --no-site-packages foobar
+#pip install PIL
